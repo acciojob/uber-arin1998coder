@@ -99,6 +99,7 @@ public class CustomerServiceImpl implements CustomerService {
 		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		//find the cab of the driver
 		tripBooking.setStatus(TripStatus.CANCELED);
+		tripBooking.setBill(0);
 		tripBookingRepository2.save(tripBooking);
 	}
 
