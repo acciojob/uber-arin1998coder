@@ -47,15 +47,14 @@ public class CustomerServiceImpl implements CustomerService {
 		//Avoid using SQL query
 
 		//get all the drivers
-		List<Cab> cabList = cabRepository2.findAll();
+		List<Driver> driverList = driverRepository2.findAll();
 		Cab cab=null;
 		Driver driver=null;
 		//find the first availbale cab and driver
-		for(Cab c:cabList){
-			if(c.getAvailable()) {
-				cab=c;
-				driver =c.getDriver(); //driver found , book him
-				c.setAvailable(false);
+		for(Driver driver1:driverList){
+			if(driver1.getCab().getAvailable()) {
+				driver = driver1;
+				driver.getCab().setAvailable(false);
 				break;
 			}
 		}
@@ -65,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
 		//find the customer using the customer ID
 		Customer customer = customerRepository2.findById(customerId).get();
 		//set the trip booking attributes
-		int ratePKm = cab.getPerKmRate();
+		int ratePKm =driver.getCab().getPerKmRate();
 		int bill = ratePKm * distanceInKm;
 
 		tripBooking.setStatus(TripStatus.CONFIRMED);
@@ -98,7 +97,7 @@ public class CustomerServiceImpl implements CustomerService {
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		//find the cab of the driver
-		int cabId = tripBooking.getDriver().getDriverId();
+		int cabId = tripBooking.getDriver().getCab().getId();
 		Cab cab = cabRepository2.findById(cabId).get();
 		//set the availability of the driver's cab as true
 		cab.setAvailable(true);
@@ -111,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		//find the cab of the driver
-		int cabId = tripBooking.getDriver().getDriverId();
+		int cabId = tripBooking.getDriver().getCab().getId();
 		Cab cab = cabRepository2.findById(cabId).get();
 		//set the availability of the driver's cab as true
 		cab.setAvailable(true);
