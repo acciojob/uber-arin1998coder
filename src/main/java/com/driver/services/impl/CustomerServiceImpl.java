@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		TripBooking tripBooking = new TripBooking();
 		//find the customer using the customer ID
-		Customer customer = customerRepository2.findById(customerId).get();
+		Customer customer = customerRepository2.findById((Integer)customerId).get();
 		//set the trip booking attributes
 		int ratePKm =driver.getCab().getPerKmRate();
 		int bill = ratePKm * distanceInKm;
@@ -80,6 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.getTripBookingList().add(tripBooking);
 
 		driverRepository2.save(driver);
+		customerRepository2.save(customer);
 
 		return tripBooking;
 
