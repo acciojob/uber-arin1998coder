@@ -15,8 +15,18 @@ public class Driver {
 
     private String password;
 
+    public Cab getCab() {
+        return cab;
+    }
+
+    public void setCab(Cab cab) {
+        this.cab = cab;
+    }
+
     @OneToOne(mappedBy = "driver",cascade = CascadeType.ALL)
     private Cab cab;
+
+
 
     public List<TripBooking> getTripBookingList() {
         return tripBookingList;
